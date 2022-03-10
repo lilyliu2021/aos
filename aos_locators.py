@@ -2,9 +2,9 @@ from faker import Faker
 
 fake = Faker(locale='en_CA')
 
-#--------------------data session-------------------------
+# --------------------data session-------------------------
 home_page_url = 'https://advantageonlineshopping.com/#/'
-#home_page_title = ' Advantage Shopping'
+# home_page_title = ' Advantage Shopping'
 home_page_title = '\xa0Advantage Shopping'
 first_name = fake.first_name()
 last_name = fake.last_name()
@@ -18,6 +18,7 @@ city = fake.city()
 address = fake.street_address().replace('\n', ' ')
 province = fake.province()[:5]
 postal_code = fake.postcode()
+subject = fake.sentence(nb_words=100)
 
 list_opt = ['Username', 'Email', 'Password', 'Confirm password',
             'First Name', 'Last Name', 'Phone Number',
@@ -30,6 +31,11 @@ list_val = [new_user_name, new_email, new_password, new_password,
             first_name, last_name, phone,
             city, address, province, postal_code]
 
-# print(list_val)
+homepage_texts=['SPEAKER','TABLES','LAPTOPS','MICE','HEADPHONES']
+homepage_textid=['speakersTxt','tabletsTxt','laptopsTxt','miceTxt','headphonesTxt']
+homepage_menu=['SPECIAL OFFER','POPULAR ITEMS','CONTACT US']
 
-##################################
+fb_page_url='https://www.facebook.com/MicroFocus/'
+tw_page_url='https://twitter.com/MicroFocus'
+in_page_url='https://www.linkedin.com/company/unavailable/'
+# print(list_val)
