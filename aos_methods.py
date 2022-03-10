@@ -7,21 +7,25 @@ from selenium.webdriver.support.ui import Select
 import datetime
 import aos_locators as locators
 
-# 1. Using Selenium WebDriver, open the web browser.
+# Using Selenium WebDriver, open the web browser.
 s = Service(executable_path='../chromedriver.exe')
 driver = webdriver.Chrome(service=s)
 
 
 def setUp():
-    # 2. Maximize the browser window.
+    # print test start day and time;
+    print('---------------------~*~---------------------')
+    print(f'########### The test is started at {datetime.datetime.now()}')
+    # Maximize the browser window.
     driver.maximize_window()
+    # Add implicitly wait for 30 seconds
     driver.implicitly_wait(30)
-    # 3. Navigate to web page URL - https://advantageonlineshopping.com/ (Links to an external site.)
+    # Navigate to web page URL - https://advantageonlineshopping.com/ (Links to an external site.)
     driver.get(locators.home_page_url)
     print(f'{driver.current_url}')  # Tip: Use print(driver.current_url) to find the actual AOS Website URL
     print(f'{driver.title}')  # Tip: Use print(driver.title) to find the actual title.
 
-    # 4. Check URL and home page title are as expected.
+    # Check URL and home page title are as expected.
     if driver.current_url == locators.home_page_url and driver.title == locators.home_page_title:
         print(f'{locators.home_page_url} launched successfully!')
         # print(f'The actual AOS website URL is {driver.current_url} and the actual title is {driver.title}')
@@ -114,7 +118,136 @@ def logger(action):
     log_file.close()
 
 
-# setUp()
+def check_homepage_text():
+    if driver.title == locators.home_page_title:
+        sleep(0.25)
+        for i in range(len(locators.homepage_texts)):
+            if locators.homepage_textid[i]:
+                assert driver.find_element(By.ID,locators.homepage_textid[i]).is_displayed()
+                sleep(0.25)
+        # assert driver.find_element(By.ID,'speakersTxt').is_displayed()
+        # sleep(0.25)
+        # assert driver.find_element(By.ID, 'tabletsTxt').is_displayed()
+        # sleep(0.25)
+        # assert driver.find_element(By.ID,'laptopsTxt').is_displayed()
+        # sleep(0.25)
+        # assert driver.find_element(By.ID,'miceTxt').is_displayed()
+        # sleep(0.25)
+        # assert driver.find_element(By.ID,'headphonesTxt').is_displayed()
+        # sleep(0.25)
+        print('Homepage texts are displayed!')
+
+
+def check_shopnow_button():
+    if driver.title == locators.home_page_title:
+        sleep(0.25)
+        for i in range(len(locators.homepage_texts)):
+            if locators.homepage_textid[i]:
+                driver.find_element(By.ID,locators.homepage_textid[i]).click()
+                sleep(0.25)
+                path=locators.homepage_texts[i]
+                #print(f'{path}')
+                #assert driver.find_element(By.XPATH,'f//h3[contains(text(),"{path}")]').is_displayed()
+                sleep(0.5)
+                driver.find_element(By.XPATH,'//a[contains(text(),"HOME")]').click()
+                sleep(0.25)
+                #driver.get(locators.home_page_url)
+                #sleep(0.25)
+        print('Shop Now button are clickable')
+        sleep(0.25)
+
+
+def check_main_menu():
+    if driver.title == locators.home_page_title:
+    #for i in range(len(locators.homepage_menu)):
+        # b = driver.find_element(By.XPATH, f'//a[contains(text(),{locators.homepage_menu[i]})]')
+        b = driver.find_element(By.XPATH,"//a[contains(text(),'SPECIAL OFFER')]")
+        driver.execute_script("arguments[0].click();", b)
+        print('Menu SPECIAL OFFER is clickable')
+        sleep(0.25)
+        b = driver.find_element(By.XPATH, "//a[contains(text(),'POPULAR ITEMS')]")
+        driver.execute_script("arguments[0].click();", b)
+        print('Menu POPULAR ITEMS is clickable')
+        sleep(0.25)
+        b = driver.find_element(By.XPATH, "//a[contains(text(),'CONTACT US')]")
+        driver.execute_script("arguments[0].click();", b)
+        print('Menu CONTACT US is clickable')
+        sleep(0.25)
+
+    print('menu item are clickable')
+
+
+def check_mainlogo():
+    if driver.title == locators.home_page_title:
+        sleep(0.25)
+        assert driver.find_element(By.XPATH,'//span[contains(text(),"dvantage")]').is_displayed()
+        print('Main logo is displayed')
+
+
+def check_socialmedia_link():
+    driver.get(locators.home_page_url)
+    if driver.title == locators.home_page_title:
+        sleep(0.25)
+        driver.find_element(By.NAME,'follow_facebook').click()
+        sleep(0.25)
+        driver.switch_to.window(driver.window_handles[1])
+        # print(f'{driver.current_url}')
+        if driver.current_url == locators.fb_page_url:
+            sleep(0.25)
+            print("Facebook links on Homepage is clickable")
+            sleep(0.25)
+            driver.close()
+    driver.switch_to.window(driver.window_handles[0])
+    if driver.title == locators.home_page_title:
+        sleep(0.25)
+        driver.find_element(By.NAME,'follow_twitter').click()
+        sleep(0.25)
+        driver.switch_to.window(driver.window_handles[1])
+        # print(f'{driver.current_url}')
+        if driver.current_url == locators.tw_page_url:
+            sleep(0.25)
+            print("Twitter links on Homepage is clickable")
+            sleep(0.25)
+            driver.close()
+    driver.switch_to.window(driver.window_handles[0])
+    if driver.title == locators.home_page_title:
+        sleep(0.25)
+        driver.find_element(By.NAME,'follow_linkedin').click()
+        sleep(0.25)
+        driver.switch_to.window(driver.window_handles[1])
+        # print(f'{driver.current_url}')
+        #if driver.current_url == locators.in_page_url:
+        sleep(0.25)
+        print("LinkedIn links on Homepage is clickable")
+        sleep(0.25)
+        #driver.close()
+        sleep(0.25)
+    #driver.switch_to.window(driver.window_handles[0])
+
+
+def contact_us():
+    sleep(0.25)
+    Select(driver.find_element(By.NAME,'categoryListboxContactUs')).select_by_visible_text('Headphones')
+    sleep(0.25)
+    Select(driver.find_element(By.NAME,'productListboxContactUs')).select_by_visible_text('HP H2310 In-ear Headset')
+    sleep(0.25)
+    driver.find_element(By.NAME,'emailContactUs').send_keys(locators.new_email)
+    sleep(0.25)
+    driver.find_element(By.NAME,'subjectTextareaContactUs').send_keys(locators.subject)
+    sleep(0.25)
+    driver.find_element(By.ID,'send_btnundefined').click()
+    assert driver.find_element(By.XPATH,'//p[contains(text(),"Thank you for contacting Advantage support.")]')
+    sleep(0.25)
+    driver.find_element(By.PARTIAL_LINK_TEXT,'CONTINUE SHOPPING').click()
+    if driver.current_url == locators.home_page_url:
+        print('CONTACT US form is working properly')
+
+#setUp()
+#check_shopnow_button()
+#check_main_menu()
+#contact_us()
+#check_homepage_text()
+#tearDown()
 # # Create New Account
 # create_new_account()
 # # Validate New Account is created
