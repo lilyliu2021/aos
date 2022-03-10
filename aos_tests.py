@@ -25,6 +25,16 @@ class AOSAppPositiveTestCases(unittest.TestCase):  #create class
         # sleep(0.25)
         methods.tearDown()
 
+    def test_homepage(self):
+        methods.setUp()
+        methods.check_homepage_text()
+        methods.check_shopnow_button()
+        methods.check_main_menu()
+        methods.check_mainlogo()
+        methods.contact_us()
+        methods.check_socialmedia_link()
+        methods.tearDown()
+
 # setUp()
 # # Create New Account
 # create_new_account()
