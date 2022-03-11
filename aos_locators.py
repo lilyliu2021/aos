@@ -19,6 +19,9 @@ address = fake.street_address().replace('\n', ' ')
 province = fake.province()[:5]
 postal_code = fake.postcode()
 subject = fake.sentence(nb_words=100)
+account_first_name=first_name.capitalize()
+account_last_name=last_name.capitalize()
+account_full_name=f'{account_first_name} {account_last_name}'
 
 list_opt = ['Username', 'Email', 'Password', 'Confirm password',
             'First Name', 'Last Name', 'Phone Number',

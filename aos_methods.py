@@ -258,7 +258,34 @@ def check_homepage():
     check_socialmedia_link()
     sleep(0.25)
 
-    #tearDown()
+def delete_account():
+    if driver.current_url==locators.home_page_url:
+        #login()
+        #validate_new_account()
+        driver.find_element(By.LINK_TEXT, locators.new_user_name).click()
+        sleep(0.25)
+        driver.find_element(By.XPATH, '//*[@id="loginMiniTitle"]/label[contains(.,"My orders")]').click()
+        sleep(0.25)
+        assert driver.find_element(By.XPATH,"//label[contains(text(),'- No orders -')]").is_displayed()
+        sleep(0.25)
+        driver.find_element(By.LINK_TEXT, locators.new_user_name).click()
+        sleep(0.25)
+        driver.find_element(By.XPATH, '//*[@id="loginMiniTitle"]/label[contains(.,"My account")]').click()
+        sleep(0.25)
+        assert driver.find_element(By.XPATH,f'//label[contains(.,"{locators.account_first_name}")]').is_displayed()
+        sleep(0.25)
+        assert driver.find_element(By.XPATH, f'//label[contains(.,"{locators.account_last_name}")]').is_displayed()
+        sleep(0.25)
+        driver.find_element(By.XPATH,'//div[contains(text(),"Delete Account")]').click()
+        sleep(0.25)
+        driver.find_element(By.XPATH,'//div[contains(text(),"yes")]').click()
+        sleep(0.5)
+        #login()
+        #assert driver.find_element(By.XPATH,'//label[contains(.,"Incorrect user name or password.")]').is_displayed()
+        sleep(0.25)
+        print(f'{locators.new_user_name} account is deleted')
+        logger('deleted')
+
 
 #setUp()
 #check_shopnow_button()
@@ -267,21 +294,25 @@ def check_homepage():
 #check_homepage_text()
 #tearDown()
 # # Create New Account
-# create_new_account()
+#create_new_account()
+#logout()
+#delete_account()
 # # Validate New Account is created
-# validate_new_account()
+#validate_new_account()
 # print(f'------New account is created, Username is {locators.new_user_name}')
-# # Logout
-# logout()
-# sleep(0.5)
+#logout
+#logout()
+#sleep(0.5)
 # # Login
-# login()
+#login()
 # # Validate New User can login (see if you can reuse New Account Validation)
-# validate_new_account()
+#validate_new_account()
+#delete_account()
+
 # print(f'------New user {locators.new_user_name} can log in!')
 # logger('created')
 # # Logout
-# logout()
+#logout()
 # print(f'------New user {locators.new_user_name} can log out successfully!')
 # sleep(0.25)
-# tearDown()
+#tearDown()

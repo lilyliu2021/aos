@@ -24,6 +24,9 @@ class AOSAppPositiveTestCases(unittest.TestCase):  #create class
         methods.logout()
         print(f'------New user {locators.new_user_name} can log out successfully!')
         # sleep(0.25)
+        methods.login()
+        methods.validate_new_account()
+        methods.delete_account()
         methods.tearDown()
 
     # def test_homepage(self):
