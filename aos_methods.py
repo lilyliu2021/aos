@@ -220,9 +220,9 @@ def check_socialmedia_link():
         sleep(0.25)
         print("LinkedIn links on Homepage is clickable")
         sleep(0.25)
-        #driver.close()
+        driver.close()
         sleep(0.25)
-    #driver.switch_to.window(driver.window_handles[0])
+    driver.switch_to.window(driver.window_handles[0])
 
 
 def contact_us():
@@ -241,6 +241,24 @@ def contact_us():
     driver.find_element(By.PARTIAL_LINK_TEXT,'CONTINUE SHOPPING').click()
     if driver.current_url == locators.home_page_url:
         print('CONTACT US form is working properly')
+
+
+def check_homepage():
+    #setUp()
+    check_homepage_text()
+    sleep(0.25)
+    check_shopnow_button()
+    sleep(0.25)
+    check_main_menu()
+    sleep(0.25)
+    check_mainlogo()
+    sleep(0.25)
+    contact_us()
+    sleep(0.25)
+    check_socialmedia_link()
+    sleep(0.25)
+
+    #tearDown()
 
 #setUp()
 #check_shopnow_button()
