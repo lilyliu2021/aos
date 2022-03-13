@@ -347,19 +347,23 @@ def checkout_cart():
     driver.find_element(By.NAME,'safepay_password').send_keys(locators.sp_password)
     sleep(0.25)
     driver.find_element(By.XPATH,'//button[@id="pay_now_btn_SAFEPAY"]').click()
-    sleep(0.25)
-    #assert driver.find_element(By.XPATH,'//span[contains(.,"Thank you")]').is_displayed()
-    sleep(0.25)
+    sleep(0.5)
+    assert driver.find_element(By.XPATH,'//span[contains(.,"Thank you")]').is_displayed()
+    sleep(0.5)
     tracking_number = driver.find_element(By.ID,'trackingNumberLabel').text
     order_number = driver.find_element(By.ID,'orderNumberLabel').text
     print(f'Order is found,tracking number is {tracking_number}, order number is {order_number}')
-    sleep(0.25)
-    # assert driver.find_element(By.XPATH, f'//label[contains(.,"{locators.account_first_name}")]').is_displayed()
-    # sleep(0.25)
-    # assert driver.find_element(By.XPATH, f'//label[contains(.,"{locators.account_last_name}")]').is_displayed()
-    # sleep(0.25)
+    sleep(0.5)
+    name=driver.find_element(By.XPATH,'//body/div[3]/section[1]/article[1]/div[2]/div[1]/div[1]/div[1]/div[1]/div[1]/label[1]').text
+    #assert driver.find_element(By.XPATH, f'//label[contains(.,"{locators.account_first_name}")]').is_displayed()
+    sleep(0.5)
+    if (locators.account_first_name.capitalize() in name) and (locators.account_last_name.capitalize() in name):
+    #assert driver.find_element(By.XPATH, f'//label[contains(.,"{locators.account_last_name}")]').is_displayed()
+    #print(f'{name}')
+    # print(f'{order_lastname}')
+        sleep(0.25)
     # assert driver.find_element(By.XPATH,f'//label[contains(.,"{locators.phone}")]').is_displayed()
-    print('Order is found')
+        print('Order name is confirmed')
 
 
 def view_cart():
