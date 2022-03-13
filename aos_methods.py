@@ -3,9 +3,12 @@ from time import sleep
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
+#from selenium.webdriver.support.expected_conditions import visibility_of_element_located
 from selenium.webdriver.support.ui import Select
+#from selenium.webdriver.support.ui import WebDriverWait
 import datetime
 import aos_locators as locators
+
 
 # Using Selenium WebDriver, open the web browser.
 s = Service(executable_path='../chromedriver.exe')
@@ -80,7 +83,7 @@ def validate_new_account():
 def logout():
     # #Logout
     driver.find_element(By.LINK_TEXT, locators.new_user_name).click()
-    # driver.find_element(By.XPATH, f'//@id="menuUserLink"/span[contains(.,"{new_user_name}")]').click()
+    #driver.find_element(By.XPATH, f'//@id="menuUserLink"/span[contains(.,"{new_user_name}")]').click()
     sleep(0.25)
     driver.find_element(By.XPATH, '//*[@id="loginMiniTitle"]/label[contains(.,"Sign out")]').click()
     sleep(0.25)
@@ -92,6 +95,8 @@ def logout():
 
 # 1.  Add Login functionality
 def login():
+    driver.find_element(By.XPATH, '//span[contains(text(),"dvantage")]').click()
+    sleep(0.25)
     driver.find_element(By.ID, 'menuUser').click()
     sleep(2)
     assert driver.find_element(By.XPATH, '//button[contains(.,"SIGN IN")]').is_displayed()
@@ -102,7 +107,9 @@ def login():
     sleep(0.25)
     driver.find_element(By.XPATH, '//button[contains(.,"SIGN IN")]').click()
     sleep(0.25)
-
+    message = driver.find_element(By.XPATH,'//label[@id="signInResultMessage"]').text
+    if message.find('Incorrect') != -1 :
+        print('The user is valid or deleted')
 
 def logger(action):
     # create variable to store the file content
@@ -145,7 +152,7 @@ def check_shopnow_button():
             if locators.homepage_textid[i]:
                 driver.find_element(By.ID,locators.homepage_textid[i]).click()
                 sleep(0.25)
-                path=locators.homepage_texts[i]
+                #path=locators.homepage_texts[i]
                 #print(f'{path}')
                 #assert driver.find_element(By.XPATH,'f//h3[contains(text(),"{path}")]').is_displayed()
                 sleep(0.5)
@@ -185,43 +192,44 @@ def check_mainlogo():
 
 
 def check_socialmedia_link():
-    driver.get(locators.home_page_url)
+    driver.find_element(By.XPATH, '//span[contains(text(),"dvantage")]').click()
+    #driver.get(locators.home_page_url)
     if driver.title == locators.home_page_title:
-        sleep(0.25)
+        sleep(0.5)
         driver.find_element(By.NAME,'follow_facebook').click()
-        sleep(0.25)
+        sleep(0.5)
         driver.switch_to.window(driver.window_handles[1])
         # print(f'{driver.current_url}')
         if driver.current_url == locators.fb_page_url:
-            sleep(0.25)
+            sleep(0.5)
             print("Facebook links on Homepage is clickable")
-            sleep(0.25)
+            sleep(0.5)
             driver.close()
     driver.switch_to.window(driver.window_handles[0])
     if driver.title == locators.home_page_title:
-        sleep(0.25)
+        sleep(0.5)
         driver.find_element(By.NAME,'follow_twitter').click()
-        sleep(0.25)
+        sleep(0.5)
         driver.switch_to.window(driver.window_handles[1])
         # print(f'{driver.current_url}')
         if driver.current_url == locators.tw_page_url:
-            sleep(0.25)
+            sleep(0.5)
             print("Twitter links on Homepage is clickable")
-            sleep(0.25)
+            sleep(0.5)
             driver.close()
     driver.switch_to.window(driver.window_handles[0])
     if driver.title == locators.home_page_title:
-        sleep(0.25)
+        sleep(0.5)
         driver.find_element(By.NAME,'follow_linkedin').click()
-        sleep(0.25)
+        sleep(0.5)
         driver.switch_to.window(driver.window_handles[1])
         # print(f'{driver.current_url}')
         #if driver.current_url == locators.in_page_url:
-        sleep(0.25)
+        sleep(0.5)
         print("LinkedIn links on Homepage is clickable")
-        sleep(0.25)
+        sleep(0.5)
         driver.close()
-        sleep(0.25)
+        sleep(0.5)
     driver.switch_to.window(driver.window_handles[0])
 
 
@@ -253,12 +261,13 @@ def check_homepage():
     sleep(0.25)
     check_mainlogo()
     sleep(0.25)
-    contact_us()
-    sleep(0.25)
     check_socialmedia_link()
     sleep(0.25)
+    contact_us()
+    sleep(0.5)
 
 def delete_account():
+    driver.find_element(By.XPATH, '//span[contains(text(),"dvantage")]').click()
     if driver.current_url==locators.home_page_url:
         #login()
         #validate_new_account()
@@ -275,9 +284,9 @@ def delete_account():
         assert driver.find_element(By.XPATH,f'//label[contains(.,"{locators.account_first_name}")]').is_displayed()
         sleep(0.25)
         assert driver.find_element(By.XPATH, f'//label[contains(.,"{locators.account_last_name}")]').is_displayed()
-        sleep(0.25)
+        sleep(0.3)
         driver.find_element(By.XPATH,'//div[contains(text(),"Delete Account")]').click()
-        sleep(0.25)
+        sleep(0.5)
         driver.find_element(By.XPATH,'//div[contains(text(),"yes")]').click()
         sleep(0.5)
         #login()
@@ -287,32 +296,133 @@ def delete_account():
         logger('deleted')
 
 
-#setUp()
-#check_shopnow_button()
-#check_main_menu()
-#contact_us()
-#check_homepage_text()
-#tearDown()
-# # Create New Account
-#create_new_account()
-#logout()
-#delete_account()
-# # Validate New Account is created
-#validate_new_account()
-# print(f'------New account is created, Username is {locators.new_user_name}')
-#logout
-#logout()
-#sleep(0.5)
-# # Login
-#login()
-# # Validate New User can login (see if you can reuse New Account Validation)
-#validate_new_account()
-#delete_account()
+def add_shopping_cart():
+    if driver.title == locators.home_page_title:
+        #add shopping cart method 1
+        driver.find_element(By.ID,'tabletsTxt').click()
+        sleep(0.25)
+        driver.find_element(By.XPATH,f'//a[contains(text(),"{locators.item1_name}")]').click()
+        sleep(0.25)
+        #driver.find_element(By.XPATH,'//span[contains(.,"BLACK")]').click()
+        sleep(0.25)
+        driver.find_element(By.CLASS_NAME,'plus').click()
+        sleep(0.25)
+        driver.find_element(By.NAME,'save_to_cart').click()
+        sleep(0.25)
+        print(f'{locators.item1_name} is added to shopping cart')
+        #add shopping cart method 2
+        driver.find_element(By.XPATH,'//a[contains(text(),"HOME")]').click()
+        sleep(0.25)
+        if driver.title == locators.home_page_title:
+            driver.find_element(By.ID,'details_16').click()
+            sleep(0.25)
+            driver.find_element(By.NAME, 'save_to_cart').click()
+            sleep(0.25)
+            print(f'{locators.item2_name} is added to shopping cart')
 
-# print(f'------New user {locators.new_user_name} can log in!')
+
+def checkout_cart():
+    driver.find_element(By.ID,'menuCart').click()
+    sleep(0.25)
+    #assert driver.find_element(By.XPATH,'//label[contains(.,"Your_shopping_cart_is_empty")]').is_displayed()
+    # empt = driver.find_element(By.LINK_TEXT,'CONTINUE SHOPPING')
+    # if empt.is_displayed():
+    #      sleep(0.25)
+    #      print('Shopping Cart is empty')
+    #      sleep(0.25)
+    #      driver.find_element(By.LINK_TEXT, 'CONTINUE SHOPPING').click()
+    # else:
+        #driver.switch_to.window(driver.window_handles[0])
+        #driver.find_element(By.XPATH,'//a[contains(.,"SHOPPING CART")]').click()
+    driver.find_element(By.XPATH,'//button[@id="checkOutButton"]').click()
+    sleep(0.25)
+    assert driver.find_element(By.XPATH, f'//label[contains(.,"{locators.account_first_name}")]').is_displayed()
+    sleep(0.25)
+    assert driver.find_element(By.XPATH, f'//label[contains(.,"{locators.account_last_name}")]').is_displayed()
+    sleep(0.25)
+    driver.find_element(By.ID,'next_btn').click()
+    sleep(0.25)
+    driver.find_element(By.NAME,'safepay_username').send_keys(locators.sp_username)
+    sleep(0.25)
+    driver.find_element(By.NAME,'safepay_password').send_keys(locators.sp_password)
+    sleep(0.25)
+    driver.find_element(By.XPATH,'//button[@id="pay_now_btn_SAFEPAY"]').click()
+    sleep(0.25)
+    #assert driver.find_element(By.XPATH,'//span[contains(.,"Thank you")]').is_displayed()
+    sleep(0.25)
+    tracking_number = driver.find_element(By.ID,'trackingNumberLabel').text
+    order_number = driver.find_element(By.ID,'orderNumberLabel').text
+    print(f'Order is found,tracking number is {tracking_number}, order number is {order_number}')
+    sleep(0.25)
+    # assert driver.find_element(By.XPATH, f'//label[contains(.,"{locators.account_first_name}")]').is_displayed()
+    # sleep(0.25)
+    # assert driver.find_element(By.XPATH, f'//label[contains(.,"{locators.account_last_name}")]').is_displayed()
+    # sleep(0.25)
+    # assert driver.find_element(By.XPATH,f'//label[contains(.,"{locators.phone}")]').is_displayed()
+    print('Order is found')
+
+
+def view_cart():
+    driver.find_element(By.XPATH,'//span[contains(text(),"dvantage")]').click()
+    if driver.title==locators.home_page_title:
+        driver.find_element(By.LINK_TEXT, locators.new_user_name).click()
+        sleep(0.25)
+        driver.find_element(By.XPATH, '//*[@id="loginMiniTitle"]/label[contains(.,"My orders")]').click()
+        sleep(0.25)
+        assert driver.find_element(By.XPATH,'//h3[contains(text(),"MY ORDERS")]').is_displayed()
+        sleep(0.25)
+        order=driver.find_element(By.XPATH,"//tbody/tr[2]/td[1]/label[1]").text
+        print (f'Order {order} is found')
+
+
+def cancel_order():
+    driver.find_element(By.XPATH,'//a[contains(text(),"REMOVE")]').click()
+    sleep(0.25)
+    driver.find_element(By.XPATH,'//label[contains(text(),"CANCEL")]').click()
+    sleep(0.25)
+    print('Order is canceled. The account can be deleted.')
+
+
+def checkout():
+    if driver.title == locators.home_page_title:
+        add_shopping_cart()
+        sleep(0.25)
+        checkout_cart()
+        sleep(0.25)
+
+
+
+#setUp()
+# #check_shopnow_button()
+# #check_main_menu()
+# #contact_us()
+# #check_homepage_text()
+# #tearDown()
+# # # Create New Account
+# create_new_account()
+# validate_new_account()
 # logger('created')
-# # Logout
+# add_shopping_cart()
+#checkout()
+# view_cart()
 #logout()
-# print(f'------New user {locators.new_user_name} can log out successfully!')
-# sleep(0.25)
+# #delete_account()
+# # # Validate New Account is created
+# #validate_new_account()
+# # print(f'------New account is created, Username is {locators.new_user_name}')
+# #logout
+# #logout()
+# #sleep(0.5)
+# # # Login
+#login()
+# # # Validate New User can login (see if you can reuse New Account Validation)
+# #validate_new_account()
+# #delete_account()
+#
+# # print(f'------New user {locators.new_user_name} can log in!')
+# # logger('created')
+# # # Logout
+# #logout()
+# # print(f'------New user {locators.new_user_name} can log out successfully!')
+# # sleep(0.25)
 #tearDown()
