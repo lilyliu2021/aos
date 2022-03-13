@@ -22,6 +22,8 @@ subject = fake.sentence(nb_words=100)
 account_first_name=first_name.capitalize()
 account_last_name=last_name.capitalize()
 account_full_name=f'{account_first_name} {account_last_name}'
+sp_username=f'Sp{fake.first_name()}'[:15]
+sp_password=f'{fake.password()}{fake.random_digit()}'[4:12]
 
 list_opt = ['Username', 'Email', 'Password', 'Confirm password',
             'First Name', 'Last Name', 'Phone Number',
@@ -41,4 +43,7 @@ homepage_menu=['SPECIAL OFFER','POPULAR ITEMS','CONTACT US']
 fb_page_url='https://www.facebook.com/MicroFocus/'
 tw_page_url='https://twitter.com/MicroFocus'
 in_page_url='https://www.linkedin.com/company/unavailable/'
+
+item1_name='HP Elite x2 1011 G1 Tablet'
+item2_name='HP ELITEPAD 1000 G2 TABLET'
 # print(list_val)
