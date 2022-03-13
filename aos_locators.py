@@ -23,7 +23,7 @@ account_first_name=first_name.capitalize()
 account_last_name=last_name.capitalize()
 account_full_name=f'{account_first_name} {account_last_name}'
 sp_username=f'Sp{fake.first_name()}'[:15]
-sp_password=f'{fake.password()}{fake.random_digit()}'[4:12]
+sp_password=f'S{fake.password()}{fake.random_digit()}'[4:12]
 
 list_opt = ['Username', 'Email', 'Password', 'Confirm password',
             'First Name', 'Last Name', 'Phone Number',
